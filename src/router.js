@@ -3,11 +3,16 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
 import Dashboard from '@/views/Dashboard'
+import Terms from '@/views/Terms'
 import DashboardSites from '@/views/DashboardSites'
 import ProductPage from '@/views/ProductPage'
+import PrivacyPolicy from '@/views/PrivacyPolicy'
 import firebase from 'firebase'
 
+import Meta from 'vue-meta'
+
 Vue.use(Router)
+Vue.use(Meta)
 
 var router = new Router({
   mode: 'history',
@@ -49,6 +54,16 @@ var router = new Router({
       path: '/p/:id',
       name: 'productPage',
       component: ProductPage
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacyPolicy',
+      component: PrivacyPolicy
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: Terms
     }
   ]
 })

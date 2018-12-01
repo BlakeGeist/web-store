@@ -64,7 +64,7 @@
         -->
       </div>
     </div>
-    <div v-if="this.$route.query.editPage" style="position:absolute"><button @click="updateProduct(product)">Update</button></div>
+    <div v-if="this.$route.query.editPage" class="update-product"><button @click="updateProduct(product)">Update</button></div>
     <vue-stripe-checkout
           ref="checkoutRef"
           :image="image"
@@ -76,7 +76,12 @@
           @done="done"
           @opened="opened"
           @closed="closed"
-        ></vue-stripe-checkout>
+        >
+      </vue-stripe-checkout>
+    <div class="footer">
+      <router-link to="/privacy-policy" target="_blank">Privacy</router-link> |
+      <router-link to="/terms" target="_blank">Terms</router-link>
+    </div>
   </div>
 </template>
 
@@ -112,11 +117,16 @@ export default {
       }
     }
   },
+  metaInfo () {
+    return {
+      title: this.product.item_name
+    }
+  },
   beforeCreate () {
     var urlParams = this.$route.params
-    var cityRef = db.collection('products').doc(urlParams.id)
+    var productRef = db.collection('products').doc(urlParams.id)
 
-    cityRef.get()
+    productRef.get()
       .then(doc => {
         if (!doc.exists) {
           console.log('No such document!')
@@ -164,6 +174,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
+body {
+  margin: 0
+}
 html, body, #app, .product{
   height: 100%;
 }
@@ -171,6 +184,8 @@ html, body, #app, .product{
   display: flex;
   max-width: 1150px;
   margin: 0 auto;
+  flex-wrap: wrap;
+  align-items: flex-end;
   &-price{
     input {
       border: 1px solid;
@@ -228,5 +243,23 @@ html, body, #app, .product{
   }
   .product-sale-price{
     color: #f30000;
+  }
+  .footer {
+    flex: 1 1 100%;
+    text-align: center;
+    color: #ccc;
+    padding: 15px;
+    a {
+      color: #ccc;
+      text-decoration: none;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+  .update-product{
+    position: absolute;
+    top: 0;
+    text-align: center;
   }
 </style>
